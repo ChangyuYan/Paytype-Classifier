@@ -1,6 +1,6 @@
 Note: Please notice that this file is for personal reference only. Some sentences are directly copied from the internet without any reference simply for readability. If you feel I have violated your copyright, please contact me and I will either remove what I have pasted here, or add references. Thank you! 
 
-#8/27/2019 
+# 8/27/2019 
 
 ## What do backend Developers do? 
 The key job role of a backend developer is to ensure that the data or services requested by a user through the frontend system or software are delivered through programmatic means. 
