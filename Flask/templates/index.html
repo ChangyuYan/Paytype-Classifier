@@ -1,0 +1,44 @@
+{% extends "bootstrap/base.html" %}
+{% block content %}
+
+<div class="container">
+    <div class="jumbotron" style="background-color:#1daeff !important;">
+        <h2 style="color:#fff;"> Payment Type Predictor </h2>
+        <p style="color:#fff;"> Using Machine Learning to Classify Pay Type </p>
+    </div>
+    <p> ML App. </p>
+</div>
+
+
+<div class="panel-group">
+    <div class="panel panel-primary">
+        <div class="panel-heading" style="background-color:#1563ff ">Payment Type Predictor</div>
+        <div class="panel-body">
+
+            <!-- Main Input For Receiving Query to our ML -->
+            <form action="{{ url_for('predict')}}" method="POST">
+                <div> Total Dollars: &nbsp; <input type="number" step="0.01" name="total_dollars" required> </div>
+                <div> &nbsp; </div>
+                <div> Total Hours: &nbsp; <input type="number" step="0.01" name="total_hours" required> </div>
+                <div> &nbsp; </div>
+                <div> Hourly Rate: &nbsp; <input type="number" step="0.01" name="hourly_rate" required> </div>
+                <button type="submit" class="btn btn-primary">Predict</button>
+            </form>
+
+            <!-- Main Input For Receiving Query to our ML -->
+
+            {{prediction}}
+
+        </div>
+    </div>
+
+
+</div>
+
+{% endblock %}
+
+{% block styles %}
+{{super()}} <!-- Allows Javascripts and other styles to be inclusive in bootstrap -->
+<link rel="stylesheet"
+      href="{{url_for('.static', filename='css/styles.css')}}">
+{% endblock %}
