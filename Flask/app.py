@@ -19,7 +19,7 @@ def index():
 @app.route('/predict', methods=['POST'])
 def predict():
     # Loading our ML Model
-    rf = pickle.load(open("models/RandomForest.pkl", "rb"))
+    rf = pickle.load(open("models/RandomForest_use_hours.pkl", "rb"))
     int_features = np.array([float(x) for x in request.form.values()])
     int_features = int_features.reshape((1, -1))
     pred = rf.predict(int_features)[0]
