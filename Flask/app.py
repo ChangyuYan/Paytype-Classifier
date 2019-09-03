@@ -7,6 +7,11 @@ import pickle
 # ML Packages
 from sklearn.feature_extraction.text import CountVectorizer
 
+# Loading our ML Model
+rf_use_hours = pickle.load(open("models/RandomForest_use_hours.pkl", "rb"))
+rf_use_salaries = pickle.load(open("models/RandomForest_use_salaries.pkl", "rb"))
+rf_is_productive = pickle.load(open("models/RandomForest_is_productive.pkl", "rb"))
+
 
 app = Flask(__name__)
 Bootstrap(app)
@@ -18,13 +23,17 @@ def index():
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    # Loading our ML Model
-    rf = pickle.load(open("models/RandomForest_use_hours.pkl", "rb"))
+    # Read from user input
     int_features = np.array([float(x) for x in request.form.values()])
     int_features = int_features.reshape((1, -1))
-    pred = rf.predict(int_features)[0]
 
-    return render_template('index.html',prediction = pred)
+    # Prediction
+    pred_use_hours = rf_use_hours.predict(int_features)[0]
+    pred_use_salaries = rf_use_salaries.predict(int_features)[0]
+    pred_is_productive = rf_is_productive.predict(int_features)[0]
+
+
+    return render_template('index.html', pred_use_hours = pred_use_hours, pred_use_salaries = pred_use_salaries, pred_is_productive = pred_is_productive)
 
 
 
