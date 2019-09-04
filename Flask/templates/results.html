@@ -35,6 +35,8 @@
                     </td>
 
                     <td valign="top">
+
+
                         <!-- Main Input For Receiving Query to our ML -->
                         {% if pred_use_hours > 0.5 %}
                         <div> Use Hours: Yes </div>
@@ -62,10 +64,15 @@
 
                     </td>
 
+
+
                 </tr>
             </table>
 
 
+            {{ total_dollars }}
+            {{ total_hours }}
+            {{ hourly_rate }}
 
 
         </div>
