@@ -1,5 +1,8 @@
 from flask import Flask,render_template,url_for,request
 from flask_bootstrap import Bootstrap
+from werkzeug import secure_filename
+from flask import send_file
+
 import pandas as pd
 import numpy as np
 import pickle
@@ -27,6 +30,7 @@ def index():
 @app.route('/predict', methods=['POST'])
 def predict():
     # Read from user input
+    # Note: The input must be in the order: Total Dollars, Total Hours, Hourly Rate
     input_features = [x for x in request.form.values()]
     payment_type_string = str.upper(str(input_features[0]))
     float_features = input_features[1:]
@@ -49,6 +53,54 @@ def predict():
     total_dollars = float_features[0][0], total_hours = float_features[0][1], hourly_rate = float_features[0][2])
 
 
+@app.route('/uploader', methods = ['GET', 'POST'])
+def upload_file():
+    if request.method == 'POST':
+        f = request.files['file']
+        f.save(f.filename)
+
+        # Read File to DataFrame
+        data = pd.read_excel(f.filename)
+
+        # Check if columns match requirement
+        if not list(data.columns) == ['pay_type_description', 'total_dollars', 'total_hours', 'hourly_rate']:
+            return "ERROR! Names in uploaded file do not match requirements!"
+
+        # Initialize Results
+        use_hours = []
+        use_salaries = []
+        is_productive = []
+
+        # Prediction
+        for index, row in data.iterrows():
+            pay_type_description = str(row.pay_type_description).upper()
+
+            if pay_type_description in string_classifier:
+                info = string_classifier[pay_type_description]
+                use_hours.append(info["use_hours"])
+                use_salaries.append(info["use_salaries"])
+                is_productive.append(info["is_productive"])
+
+            else:
+
+                total_dollars = row.total_dollars
+                total_hours = row.total_hours
+                hourly_rate = row.hourly_rate
+
+                features = np.array([total_dollars, total_hours, hourly_rate])
+                features = features.reshape((1, -1))
+
+                use_hours.append(round(rf_use_hours.predict(features)[0]))
+                use_salaries.append(round(rf_use_salaries.predict(features)[0]))
+                is_productive.append(round(rf_is_productive.predict(features)[0]))
+
+        data["use_hours"] = use_hours
+        data["use_salaries"] = use_salaries
+        data["is_productive"] = is_productive
+
+        data.to_excel("result.xlsx")
+
+        return send_file("result.xlsx")
 
 if __name__ == '__main__':
 	app.run(debug=True)
