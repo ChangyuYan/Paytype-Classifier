@@ -45,7 +45,7 @@ def predict():
         pred_is_productive = rf_is_productive.predict(float_features)[0]
 
 
-    return render_template('results.html', pred_use_hours = pred_use_hours, pred_use_salaries = pred_use_salaries, pred_is_productive = pred_is_productive,
+    return render_template('results.html', payment_type_string = payment_type_string, pred_use_hours = pred_use_hours, pred_use_salaries = pred_use_salaries, pred_is_productive = pred_is_productive,
     total_dollars = float_features[0][0], total_hours = float_features[0][1], hourly_rate = float_features[0][2])
 
 
