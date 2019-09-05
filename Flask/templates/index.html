@@ -1,22 +1,36 @@
 {% extends "bootstrap/base.html" %}
 {% block content %}
 
-<div class="topnav">
-    <div class="jumbotron" style="background-color:#004250">
-        <h2 style="color:#E36F1D;"> PAYMENT TYPE PREDICTOR </h2>
-    </div>
+
+<div class="jumbotron" style="background-color:#004250 ">
+    <table>
+        <tr>
+            <th style="width:10%"></th>
+            <th style="width:90%"></th>
+        </tr>
+        <tr>
+            <td>
+                <img height="100px" width="100px" src="../static/logo.png"/>
+            </td>
+            <td>
+                <h2 style="color:#E36F1D;">  PAYMENT TYPE PREDICTOR </h2>
+                <h4 style="color:#dbdbdb;">  Built with Machine Learning Algorithms </h4>
+            </td>
+        </tr>
+    </table>
+
 </div>
+
 
 
 <table style="width:100%">
     <tr>
-        <th style="width:50%"> <h2> Predict A Single Case: </h2> </th>
+        <th style="width:50%"> <h2> &nbsp; Predict A Single Case: </h2> </th>
         <th style="width:50%"> <h2> Or, Upload A Excel Document: </h2></th>
     </tr>
 
     <tr>
         <td >
-
 
             <table align="left">
                 <tr>
@@ -28,7 +42,7 @@
                         <!-- Main Input For Receiving Query to our ML -->
                         <form action="{{ url_for('predict')}}" method="POST">
                             <div>
-                                Pay Type:
+                                &nbsp; Pay Type:
 
                                 <input name="paytype" id="paytype" style="width:70%" list="paytypeoptions" required/>
                                 <datalist id="paytypeoptions"></datalist>
@@ -46,22 +60,39 @@
 
                             </div>
                             <br/>
-                            <div> Total Dollars: &nbsp; <input style="width:60%" type="number" step="0.0001" name="total_dollars" id="total_dollars" required> </div>
+                            <div> &nbsp; Total Dollars: &nbsp; <input style="width:60%" type="number" step="0.0001" name="total_dollars" id="total_dollars" required> </div>
                             <div> &nbsp; </div>
-                            <div> Total Hours: &nbsp; <input style="width:60%" type="number" step="0.0001" name="total_hours" id="total_hours" required> </div>
+                            <div> &nbsp; Total Hours: &nbsp; <input style="width:60%" type="number" step="0.0001" name="total_hours" id="total_hours" required> </div>
                             <div> &nbsp; </div>
-                            <div> Hourly Rate: &nbsp; <input style="width:60%" type="number" step="0.0001" name="hourly_rate" id="hourly_rate" required> </div>
+                            <div> &nbsp; Hourly Rate: &nbsp; <input style="width:60%" type="number" step="0.0001" name="hourly_rate" id="hourly_rate" required> </div>
                             <div> &nbsp; </div>
-                            <button type="submit" class="btn btn-primary"">Predict</button>
+                            <button type="submit" style="background-color:#004250; color:#dbdbdb">Predict</button>
                         </form>
                     </td>
 
                 </tr>
             </table>
-
         </td>
-        <td>
-            blah blah blah
+
+        <td valign="top">
+            <form action = "http://localhost:5000/uploader" method = "POST"
+                  enctype = "multipart/form-data">
+                <input type="file" name="file" accept=".xls,.xlsx" required/>
+                <br />
+                <button type = "submit" style="background-color:#004250; color:#dbdbdb"> Predict and Download </button>
+            </form>
+            <br />
+            <h5> Note: </h5>
+            <p>
+                1. Only .xls and .xlsx files are accepted
+                <br />
+                <br />
+                2. There must be only four columns with the exact same names and order as: pay_type_description, total_dollars, total_hours, hourly_rate. No space. Otherwise, the app would give you an error.
+                <br />
+                <br />
+                3. Depending on the document size, this process may take a few minutes. Please do not refresh or close the page.
+                <br />
+            </p>
         </td>
     </tr>
 </table>
