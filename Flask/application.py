@@ -19,7 +19,7 @@ rf_is_productive = pickle.load(open("models/RandomForest_is_productive.pkl", "rb
 string_classifier = pickle.load(open("models/string_classifier.pkl", "rb"))
 
 
-app = Flask(__name__)
+application = app = Flask(__name__)
 Bootstrap(app)
 
 
