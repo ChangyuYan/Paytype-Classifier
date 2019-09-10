@@ -75,7 +75,7 @@
         </td>
 
         <td valign="top">
-            <form action = "http://localhost:5000/uploader" method = "POST"
+            <form action="{{ url_for('uploader')}}" method = "POST"
                   enctype = "multipart/form-data">
                 <input type="file" name="file" accept=".xls,.xlsx" required/>
                 <br />
