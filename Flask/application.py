@@ -82,7 +82,6 @@ def upload_file():
                 is_productive.append(info["is_productive"])
 
             else:
-
                 total_dollars = row.total_dollars
                 total_hours = row.total_hours
                 hourly_rate = row.hourly_rate
@@ -102,5 +101,5 @@ def upload_file():
 
         return send_file("result.xlsx")
 
-if __name__ == '__main__':
+if __name__ == '__main__': 
 	app.run(debug=True)
