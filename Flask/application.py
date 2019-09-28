@@ -7,16 +7,19 @@ import pandas as pd
 import numpy as np
 import pickle
 
+import random
+import string
+
 # ML Packages
 from sklearn.feature_extraction.text import CountVectorizer
 
 # Loading our ML Model
-rf_use_hours = pickle.load(open("models/RandomForest_use_hours.pkl", "rb"))
-rf_use_salaries = pickle.load(open("models/RandomForest_use_salaries.pkl", "rb"))
-rf_is_productive = pickle.load(open("models/RandomForest_is_productive.pkl", "rb"))
+rf_use_hours = pickle.load(open("./models/RandomForest_use_hours.pkl", "rb"))
+rf_use_salaries = pickle.load(open("./models/RandomForest_use_salaries.pkl", "rb"))
+rf_is_productive = pickle.load(open("./models/RandomForest_is_productive.pkl", "rb"))
 
 # Loading the String Classifier
-string_classifier = pickle.load(open("models/string_classifier.pkl", "rb"))
+string_classifier = pickle.load(open("./models/string_classifier.pkl", "rb"))
 
 
 application = app = Flask(__name__)
@@ -98,9 +101,18 @@ def upload_file():
         data["use_salaries"] = use_salaries
         data["is_productive"] = is_productive
 
-        data.to_excel("result.xlsx")
+        # filename = "./result" + randomString(6) + ".xlsx"
+        # TODO: FIGURE OUT A WAY TO DELETE FILE AFTER RETURN TO AVOID MEMORY LEAK
+        filename = "./result.xlsx"
+        data.to_excel(filename)
 
-        return send_file("result.xlsx")
+        return send_file(filename) 
+
+
+def randomString(stringLength=10):
+    """Generate a random string of fixed length """
+    letters = string.ascii_lowercase
+    return ''.join(random.choice(letters) for i in range(stringLength))
 
 if __name__ == '__main__':
 	app.run(debug=True)
