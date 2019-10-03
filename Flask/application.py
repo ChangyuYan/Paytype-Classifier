@@ -85,13 +85,28 @@ def upload_file():
                 is_productive.append(info["is_productive"])
 
             else:
-
                 total_dollars = row.total_dollars
                 total_hours = row.total_hours
                 hourly_rate = row.hourly_rate
 
                 features = np.array([total_dollars, total_hours, hourly_rate])
                 features = features.reshape((1, -1))
+
+                print(features)
+                print("---------")
+
+                vals = features[0]
+                for i in range(3):
+                    if type(vals[i]) != np.float64:
+                        try: 
+                            temp = vals[i]
+                            vals[i] = np.float(temp)
+                            print("Converted from " + str(temp) + "to " + str(vals[i]))
+                        except:
+                            # If value is not float and cannot be converted to float (possibly because the value is missing or other illegal symbols involed):
+                            vals[i] = 0
+                            print(str(vals[i]) + " cannot  be converted; being set to 0")
+
 
                 use_hours.append(round(rf_use_hours.predict(features)[0]))
                 use_salaries.append(round(rf_use_salaries.predict(features)[0]))
