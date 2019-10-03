@@ -9,6 +9,7 @@ import pickle
 
 import random
 import string
+import os
 
 # ML Packages
 from sklearn.feature_extraction.text import CountVectorizer
@@ -92,8 +93,8 @@ def upload_file():
                 features = np.array([total_dollars, total_hours, hourly_rate])
                 features = features.reshape((1, -1))
 
-                print(features)
-                print("---------")
+                # print(features)
+                # print("---------")
 
                 vals = features[0]
                 for i in range(3):
@@ -101,11 +102,11 @@ def upload_file():
                         try: 
                             temp = vals[i]
                             vals[i] = np.float(temp)
-                            print("Converted from " + str(temp) + "to " + str(vals[i]))
+                            # print("Converted from " + str(temp) + "to " + str(vals[i]))
                         except:
                             # If value is not float and cannot be converted to float (possibly because the value is missing or other illegal symbols involed):
                             vals[i] = 0
-                            print(str(vals[i]) + " cannot  be converted; being set to 0")
+                            # print(str(vals[i]) + " cannot  be converted; being set to 0")
 
 
                 use_hours.append(round(rf_use_hours.predict(features)[0]))
@@ -118,6 +119,9 @@ def upload_file():
 
         # filename = "./result" + randomString(6) + ".xlsx"
         # TODO: FIGURE OUT A WAY TO DELETE FILE AFTER RETURN TO AVOID MEMORY LEAK
+
+        os.remove(f.filename)
+
         filename = "./result.xlsx"
         data.to_excel(filename)
 
